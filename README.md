@@ -8,15 +8,10 @@ famous PuTTY). This repository is a mirror with some minor changes.
 
 _Instructions tested on Mac OS X 10.8.4 (Mountain Lion)_
 
-How to Build
-------------
-
-    $ git clone https://github.com/mborgerson/tweak
-    $ make tweak
-
 How to Build & Install
 ----------------------
 
+    $ git clone https://github.com/mborgerson/tweak.git
     $ make
     $ sudo make install
 
