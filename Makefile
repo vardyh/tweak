@@ -20,7 +20,7 @@ CC := gcc
 CFLAGS := -g -c -Wall $(XFLAGS)
 LINK := gcc
 LFLAGS :=
-LIBS := 
+LIBS :=
 
 PREFIX=/usr/local
 BINDIR=$(PREFIX)/bin
@@ -38,19 +38,27 @@ LIBS += -lncurses
 TWEAK += curses.o
 endif
 
+ifeq ($(OS),Windows_NT)
+else
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Darwin)
+		CFLAGS := $(CFLAGS) -Dunix
+	endif
+endif
+
 .c.o:
 	$(CC) $(CFLAGS) $*.c
 
-all: tweak tweak.1 btree.html
+all: tweak
 
 tweak:	$(TWEAK)
 	$(LINK) -o tweak $(TWEAK) $(LIBS)
 
-tweak.1:  manpage.but
-	halibut --man=$@ $<
+#tweak.1:  manpage.but
+#	halibut --man=$@ $<
 
-btree.html:  btree.but
-	halibut --html=$@ $<
+#btree.html:  btree.but
+#	halibut --html=$@ $<
 
 # Ensure tweak.h reflects this version number, and then run a
 # command like `make release VERSION=3.00'.
@@ -69,7 +77,7 @@ install: tweak tweak.1
 	install -m 0644 tweak.1 $(MANDIR)/tweak.1
 
 clean:
-	rm -f *.o tweak tweak.1 btree.html
+	rm -f *.o tweak
 
 main.o: main.c tweak.h
 keytab.o: keytab.c tweak.h
